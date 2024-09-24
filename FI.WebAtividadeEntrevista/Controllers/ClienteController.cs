@@ -4,6 +4,7 @@ using Fl.Utilitario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebAtividadeEntrevista.Models;
@@ -238,6 +239,12 @@ namespace WebAtividadeEntrevista.Controllers
 
                 if (!string.IsNullOrWhiteSpace(cpf))
                 {
+                    if (!ValidarDocumento.ValidarCPF(cpf))
+                    {
+                        Response.StatusCode = 400;
+                        return Json("CPF inválido.");
+                    }
+
                     beneficiarioExistente.CPF = cpf; 
                 }
 

@@ -68,7 +68,6 @@ namespace FI.AtividadeEntrevista.DAL.Beneficiarios
             return ben;
         }
 
-
         private List<Beneficiario> Converter(DataSet ds)
         {
             List<Beneficiario> listBen = new List<Beneficiario>();
