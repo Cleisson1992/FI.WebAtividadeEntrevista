@@ -8,22 +8,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="formBeneficiario">
-                    <div class="row">
-                        <div class="form-group col-md-4">
-                            <label for="CPFBeneficiario">CPF:</label>
-                            <input type="text" class="form-control" id="CPFBeneficiario" name="CPFBeneficiario" placeholder="Ex.: 999.999.999-99" maxlength="14" required>
+
+                @if (Model == null || Model.IsEditing == false)
+                {
+                    <form id="formBeneficiario">
+                        <div class="row">
+                            <div class="form-group col-md-4">
+                                <label for="CPFBeneficiario">CPF:</label>
+                                <input type="text" class="form-control" id="CPFBeneficiario" name="CPFBeneficiario" placeholder="Ex.: 999.999.999-99" maxlength="14" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="NomeBeneficiario">Nome:</label>
+                                <input type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: Maria" maxlength="50" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label style="visibility: hidden;">Botão</label> <br />
+                                <button type="button" id="btnSalvarBeneficiario" class="btn btn-sm btn-success">Incluir</button>
+                            </div>
                         </div>
-                        <div class="form-group col-md-4">
-                            <label for="NomeBeneficiario">Nome:</label>
-                            <input type="text" class="form-control" id="NomeBeneficiario" name="NomeBeneficiario" placeholder="Ex.: Maria" maxlength="50" required>
-                        </div>
-                        <div class="form-group col-md-4">
-                            <label style="visibility: hidden;">Botão</label> <br />
-                            <button type="button" id="btnSalvarBeneficiario" class="btn btn-sm btn-success">Incluir</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                }
 
                 <table class="table table-striped" id="gridBeneficiarios">
                     <thead>
@@ -34,22 +38,23 @@
                         </tr>
                     </thead>
 
-                    @if (Model != null)
+                    @if (Model != null && Model.IsEditing == true)
                     {
                         <tbody>
                             @foreach (var beneficiario in Model.Beneficiarios)
                             {
                                 <tr>
-                                    <td>@beneficiario.CPF</td>
-                                    <td>@beneficiario.Nome</td>
-
                                     <td>
-                                        <button class="btn btn-sm btn-primary btnAlterarBeneficiario" data-id="@beneficiario.Id">Alterar</button>
-                                        <button class="btn btn-sm btn-primary btnExcluirBeneficiario"
-                                                data-id="@beneficiario.Id"
-                                                onclick="confirmarExcluirBeneficionario(this)">
-                                            Excluir
-                                        </button>
+                                        <input type="text" class="form-control" value="@beneficiario.CPF" data-id="@beneficiario.Id">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="form-control" value="@beneficiario.Nome" data-id="@beneficiario.Id">
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group" style="display: flex; gap: 5px;">
+                                            <button class="btn btn-sm btn-primary btnAlterarBeneficiario" data-id="@beneficiario.Id" onclick="confirmarAlterarBeneficiario(this)">Alterar</button>
+                                            <button class="btn btn-sm btn-primary btnExcluirBeneficiario" data-id="@beneficiario.Id" onclick="confirmarExcluirBeneficionario(this)">Excluir</button>
+                                        </div>
                                     </td>
                                 </tr>
                             }
@@ -59,7 +64,6 @@
                     {
                         <tbody></tbody>
                     }
-
                 </table>
             </div>
         </div>

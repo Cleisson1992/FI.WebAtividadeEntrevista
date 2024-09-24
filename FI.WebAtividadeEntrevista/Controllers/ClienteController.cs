@@ -4,6 +4,7 @@ using Fl.Utilitario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using WebAtividadeEntrevista.Models;
 
@@ -150,6 +151,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
                     CPF = cliente.CPF,
+                    IsEditing = true,
                 };
 
                 foreach (var ben in cliente.Beneficiarios)
@@ -212,6 +214,46 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 Response.StatusCode = 500; 
                 return Json(new { success = false, message = "Erro ao excluir beneficiário: " + ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AlterarBeneficiario(long id, string cpf, string nome)
+        {
+            if (id <= 0)
+            {
+                Response.StatusCode = 400;
+                return Json(new { success = false, message = "Informe o ID do beneficiário!" });
+            }
+
+            try
+            {
+                var beneficiarioExistente = _beneficiarioService.ConsultarBeneficiario(id);
+
+                if (beneficiarioExistente == null)
+                {
+                    Response.StatusCode = 404;
+                    return Json(new { success = false, message = "Beneficiário não encontrado!" });
+                }
+
+                if (!string.IsNullOrWhiteSpace(cpf))
+                {
+                    beneficiarioExistente.CPF = cpf; 
+                }
+
+                if (!string.IsNullOrWhiteSpace(nome))
+                {
+                    beneficiarioExistente.Nome = nome; 
+                }
+
+                _beneficiarioService.Alterar(beneficiarioExistente);
+
+                return Json(new { success = true, message = "Beneficiário atualizado com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500;
+                return Json(new { success = false, message = "Erro ao atualizar beneficiário: " + ex.Message });
             }
         }
     }

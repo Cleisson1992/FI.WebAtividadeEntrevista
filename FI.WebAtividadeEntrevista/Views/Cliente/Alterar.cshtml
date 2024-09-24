@@ -8,6 +8,7 @@
         var obj = @Html.Raw(Json.Encode(Model));
         var urlRetorno = '@Url.Action("Index", "Cliente", new { area = "" })';
         var urlExcluirBeneficiario = '@Url.Action("ExcluirBeneficiario", "Cliente", new { area = ""})';
+        var urlAlterarBeneficiario = '@Url.Action("AlterarBeneficiario", "Cliente", new { area = ""})';
     </script>
     @Scripts.Render("~/bundles/altClientes")
 }

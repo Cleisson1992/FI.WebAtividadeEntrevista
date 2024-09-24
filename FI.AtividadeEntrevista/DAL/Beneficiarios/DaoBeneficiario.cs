@@ -40,6 +40,21 @@ namespace FI.AtividadeEntrevista.DAL.Beneficiarios
             return id == idRet;
         }
 
+        internal Beneficiario ObterBeneficiario(long id)
+        {
+            if (id <= 0)
+                return null;
+
+            List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>
+            {
+                new System.Data.SqlClient.SqlParameter("@Id", id)
+            };
+
+            DataSet ds = base.Consultar("FI_SP_ObterBeneficiarioPorId", parametros);
+
+            return ConverterBeneficiario(ds); 
+        }
+
         internal List<Beneficiario> ListarBeneficiarios(long idCliente)
         {
             List<System.Data.SqlClient.SqlParameter> parameters = new List<System.Data.SqlClient.SqlParameter>();
@@ -76,6 +91,25 @@ namespace FI.AtividadeEntrevista.DAL.Beneficiarios
             return listBen;
         }
 
+        private Beneficiario ConverterBeneficiario (DataSet ds)
+        {
+            if (ds != null && ds.Tables != null && ds.Tables.Count > 0 && ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow row = ds.Tables[0].Rows[0]; 
+                Beneficiario ben = new Beneficiario
+                {
+                    Id = row.Field<long>("Id"),
+                    CPF = row.Field<string>("CPF"),
+                    Nome = row.Field<string>("Nome"),
+                    IdCliente = row.Field<long>("IdCliente")
+                };
+
+                return ben; 
+            }
+
+            return null; 
+        }
+
         internal void Excluir(long Id)
         {
             List<System.Data.SqlClient.SqlParameter> parametros = new List<System.Data.SqlClient.SqlParameter>();
@@ -95,6 +129,5 @@ namespace FI.AtividadeEntrevista.DAL.Beneficiarios
 
             base.Executar("FI_SP_AltBeneficiario", parametros);
         }
-
     }
 }

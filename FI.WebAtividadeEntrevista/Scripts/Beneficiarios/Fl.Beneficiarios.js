@@ -33,7 +33,42 @@
             excluirBeneficionario(id);
         }
     };
+
+    window.confirmarAlterarBeneficiario = function (button) {
+        if (confirm("Você tem certeza que deseja alterar este beneficiário ?")) {
+            alterarBeneficiario(button);
+        }
+    };
 });
+
+function alterarBeneficiario(button) {
+    const row = button.closest('tr');
+    const cpfInput = row.querySelector('input[data-id="' + button.getAttribute('data-id') + '"]:nth-of-type(1)');
+    const nomeInput = row.querySelector('input[data-id="' + button.getAttribute('data-id') + '"]:nth-of-type(2)');
+
+    const cpf = cpfInput ? cpfInput.value : '';
+    const nome = nomeInput ? nomeInput.value : '';
+    const id = button.getAttribute('data-id'); 
+
+    $.ajax({
+        url: urlAlterarBeneficiario, 
+        type: 'POST',
+        data: {
+            Id: id,
+            CPF: cpf,
+            Nome: nome
+        },
+        success: function (response) {
+            row.querySelector('input[data-id="' + id + '"]:nth-of-type(1)').value = cpf;
+            row.querySelector('input[data-id="' + id + '"]:nth-of-type(2)').value = nome; 
+            alert('Beneficiário atualizado com sucesso!');
+        },
+        error: function (xhr, status, error) {
+            console.error(error);
+            alert('Ocorreu um erro ao atualizar os dados.');
+        }
+    });
+}
 
 function adicionarLinhaBeneficiario(cpf, nome) {
     const row = `
@@ -120,3 +155,4 @@ function excluirBeneficionario(id) {
         }
     });
 }
+
