@@ -22,21 +22,24 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <a href="@Url.Action("Index", "Home")" class="navbar-brand">
+                    <img src="https://www.funcao.com.br/wp-content/uploads/2022/10/logo-funcao-final-branco.png" alt="Função Sistemas" style="height: 40px;">
+                </a>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, null)</li>
-                    <li>@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, null)</li>
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li>@Html.ActionLink("Clientes", "Index", "Cliente", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
+
+    <div class="container body-content" style="margin-top: 40px;">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Processo Seletivo do Cleisson</p>
         </footer>
     </div>
 

@@ -1,33 +1,48 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "O que deve ser feito:";
 }
 
 <main>
     <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="title">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
+        <div class="col-md-12">
+            <h2 id="title">@ViewBag.Title</h2>
 
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>
-                ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-                enables a clean separation of concerns and gives you full control over markup
-                for enjoyable, agile development.
-            </p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
-        </section>
-    </div>
+            <h3>Implementação do CPF do cliente</h3>
+            <p>Na tela de cadastramento/alteração de clientes, incluir um novo campo denominado CPF, que permitirá o cadastramento do CPF do cliente.</p>
+            <p><strong>Pontos relevantes:</strong></p>
+            <ul>
+                <li>O novo campo deverá seguir o padrão visual dos demais campos da tela</li>
+                <li>O cadastramento do CPF será obrigatório</li>
+                <li>Deverá possuir a formatação padrão de CPF (999.999.999-99)</li>
+                <li>Deverá consistir se o dado informado é um CPF válido (conforme o cálculo padrão de verificação do dígito verificador de CPF)</li>
+                <li>Não permitir o cadastramento de um CPF já existente no banco de dados, ou seja, não é permitida a existência de um CPF duplicado</li>
+            </ul>
+
+            <p>O banco de dados da aplicação está localizado no caminho "~\FI.WebAtividadeEntrevista\App_Data", onde será necessário criar o novo campo no banco de dados.</p>
+            <p><strong>Banco de dados:</strong></p>
+            <ul>
+                <li>Tabela que deverá armazenar o novo campo de CPF: "CLIENTES"</li>
+                <li>O novo campo deverá ser nomeado como "CPF"</li>
+            </ul>
+
+            <h3>Implementação do botão Beneficiários</h3>
+            <p>Na tela de cadastramento/alteração de clientes, incluir um novo botão denominado “Beneficiários”, que permitirá o cadastramento de beneficiários do cliente. O mesmo deverá abrir um pop-up para inclusão do “CPF” e “Nome do beneficiário”.</p>
+            <p>Além disso, deverá existir um grid onde serão exibidos os beneficiários já cadastrados. Será possível realizar a manutenção dos beneficiários cadastrados, permitindo a alteração e exclusão dos mesmos.</p>
+
+            <p><strong>Pontos relevantes:</strong></p>
+            <ul>
+                <li>O novo botão e novos campos deverão seguir o padrão visual dos demais botões e campos da tela</li>
+                <li>O campo CPF deverá possuir a formatação padrão (999.999.999-99)</li>
+                <li>Deverá consistir se o dado informado é um CPF válido (conforme o cálculo padrão de verificação do dígito verificador de CPF)</li>
+                <li>Não permitir o cadastramento de mais de um beneficiário com o mesmo CPF para o mesmo cliente</li>
+                <li>O beneficiário deverá ser gravado na base de dados ao acionar o botão “Salvar” na tela de “Cadastrar Cliente”</li>
+            </ul>
+
+            <p><strong>Banco de dados:</strong></p>
+            <ul>
+                <li>Tabela que deverá armazenar os dados de beneficiários: "BENEFICIARIOS"</li>
+                <li>Os novos campos deverão ser nomeados como: "ID", “CPF”, “NOME” e “IDCLIENTE”</li>
+            </ul>
+        </div>
+    </section>
 </main>
