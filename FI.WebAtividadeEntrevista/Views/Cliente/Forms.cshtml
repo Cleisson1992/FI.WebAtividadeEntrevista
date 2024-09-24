@@ -81,6 +81,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="pull-right">
+                <button type="button" class="btn btn-sm btn-primary" id="btnBeneficiarios">Beneficiários</button>
                 <button type="submit" class="btn btn-sm btn-success">Salvar</button>
                 @Html.ActionLink("Voltar", "Index", "Cliente", new { }, new { @class = "btn btn-sm btn-danger" })
             </div>
@@ -89,8 +90,14 @@
 
 </form>
 
+@Html.Partial("_BeneficiariosPartial")
+
 <script>
     $(document).ready(function () {
         $('#CPF').mask('000.000.000-00', { reverse: true });
+
+        $('#btnBeneficiarios').on('click', function () {
+            $('#modalBeneficiarios').modal('show');
+        });
     });
 </script>

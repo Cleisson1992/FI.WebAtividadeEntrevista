@@ -11,6 +11,11 @@ namespace WebAtividadeEntrevista.Models
     /// </summary>
     public class ClienteModel
     {
+        public ClienteModel()
+        {
+            Beneficiarios = new List<BeneficiarioModel>();
+        }
+
         public long Id { get; set; }
 
         /// <summary>
@@ -71,7 +76,11 @@ namespace WebAtividadeEntrevista.Models
         /// CPF
         /// </summary>
         [Required(ErrorMessage = "O CPF é obrigatório.")]
-        [RegularExpression(@"^\d{3}\.\d{3}\.\d{3}\-\d{2}$", ErrorMessage = "O CPF deve estar no formato 000.000.000-00")]
         public string CPF { get; set; }
+
+        /// <summary>
+        /// Lista de Beneficiários
+        /// </summary>
+        public List<BeneficiarioModel> Beneficiarios { get; set; }
     }
 }

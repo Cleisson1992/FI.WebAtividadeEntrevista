@@ -51,21 +51,30 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
+                var cliente = new Cliente();             
+                cliente.CEP = model.CEP;
+                cliente.Cidade = model.Cidade;
+                cliente.Email = model.Email;
+                cliente.Estado = model.Estado;
+                cliente.Logradouro = model.Logradouro;
+                cliente.Nacionalidade = model.Nacionalidade;
+                cliente.Nome = model.Nome;
+                cliente.Sobrenome = model.Sobrenome;
+                cliente.Telefone = model.Telefone;
+                cliente.CPF = model.CPF;
+                cliente.Beneficiarios = new List<Beneficiario>();
                 
-                model.Id = bo.Incluir(new Cliente()
-                {                    
-                    CEP = model.CEP,
-                    Cidade = model.Cidade,
-                    Email = model.Email,
-                    Estado = model.Estado,
-                    Logradouro = model.Logradouro,
-                    Nacionalidade = model.Nacionalidade,
-                    Nome = model.Nome,
-                    Sobrenome = model.Sobrenome,
-                    Telefone = model.Telefone,
-                    CPF = model.CPF,
-                });
-       
+                foreach (var beneficiario in model.Beneficiarios)
+                {
+                    cliente.Beneficiarios.Add(new Beneficiario
+                    {
+                        Nome = beneficiario.Nome,
+                        CPF = beneficiario.CPF
+                    });
+                }
+
+                model.Id = bo.Incluir(cliente);
+
                 return Json("Cadastro efetuado com sucesso");
             }
         }

@@ -1,22 +1,14 @@
 ﻿
 $(document).ready(function () {
+
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
+        const dadosFormulario = coletarDadosFormulario();
+
         $.ajax({
             url: urlPost,
             method: "POST",
-            data: {
-                "NOME": $(this).find("#Nome").val(),
-                "CEP": $(this).find("#CEP").val(),
-                "CPF": $(this).find("#CPF").val(),
-                "Email": $(this).find("#Email").val(),
-                "Sobrenome": $(this).find("#Sobrenome").val(),
-                "Nacionalidade": $(this).find("#Nacionalidade").val(),
-                "Estado": $(this).find("#Estado").val(),
-                "Cidade": $(this).find("#Cidade").val(),
-                "Logradouro": $(this).find("#Logradouro").val(),
-                "Telefone": $(this).find("#Telefone").val(),
-            },
+            data: dadosFormulario,
             error:
             function (r) {
                 if (r.status == 400)
@@ -28,11 +20,48 @@ $(document).ready(function () {
             function (r) {
                 ModalDialog("Sucesso!", r)
                 $("#formCadastro")[0].reset();
+                $("#gridBeneficiarios > tbody").empty();
             }
         });
-    })
-    
+    })  
 })
+
+function obterDadosBeneficiarios() {
+    let beneficiarios = [];
+
+    // Itera sobre cada linha da tabela de beneficiários
+    $("#gridBeneficiarios > tbody > tr").each(function () {
+        // Usa o 'this' para referenciar a linha atual
+        let linhaTabela = $(this);
+
+        // Captura CPF e Nome, removendo caracteres não numéricos do CPF
+        let cpf = linhaTabela.find(".cpf").text().replace(/\D+/g, '');
+        let nome = linhaTabela.find(".nome").text().trim(); // Usa trim() para remover espaços extras
+
+        // Adiciona os dados ao array de beneficiários, se o CPF não estiver vazio
+        if (cpf) {
+            beneficiarios.push({ CPF: cpf, NOME: nome });
+        }
+    });
+
+    return beneficiarios; // Retorna a lista de beneficiários
+}
+
+function coletarDadosFormulario() {
+    return {
+        "NOME": $("#Nome").val(),
+        "CEP": $("#CEP").val().replace(/\D+/g, ''), 
+        "CPF": $("#CPF").val().replace(/\D+/g, ''), 
+        "Email": $("#Email").val(),
+        "Sobrenome": $("#Sobrenome").val(),
+        "Nacionalidade": $("#Nacionalidade").val(),
+        "Estado": $("#Estado").val(),
+        "Cidade": $("#Cidade").val(),
+        "Logradouro": $("#Logradouro").val(),
+        "Telefone": $("#Telefone").val().replace(/\D+/g, ''), 
+        "Beneficiarios": obterDadosBeneficiarios() 
+    };
+}
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
