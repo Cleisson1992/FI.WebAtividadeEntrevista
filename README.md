@@ -35,7 +35,7 @@
 
 ### Tabela BENEFICIARIOS
 - `ID`: Chave Primária
-- `CPF`: CPF do beneficiário (obrigatório, único por cliente)
+- `CPF`: CPF do beneficiário
 - `NOME`: Nome do beneficiário
 - `IDCLIENTE`: Chave estrangeira referenciando a tabela `CLIENTES`
 
