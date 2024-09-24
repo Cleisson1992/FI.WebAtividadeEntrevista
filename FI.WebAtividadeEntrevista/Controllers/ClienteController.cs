@@ -1,12 +1,11 @@
 ﻿using FI.AtividadeEntrevista.BLL;
-using WebAtividadeEntrevista.Models;
+using FI.AtividadeEntrevista.DML;
+using Fl.Utilitario;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using FI.AtividadeEntrevista.DML;
-using Fl.Utilitario;
+using WebAtividadeEntrevista.Models;
 
 namespace WebAtividadeEntrevista.Controllers
 {
@@ -148,7 +147,18 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
                     CPF = cliente.CPF,
-                };         
+                };
+
+                foreach (var ben in cliente.Beneficiarios)
+                {
+                    model.Beneficiarios.Add(new BeneficiarioModel()
+                    {
+                        Id = ben.Id,
+                        CPF = ben.CPF,
+                        Nome = ben.Nome,
+                        IdCliente = ben.IdCliente
+                    });
+                }
             }
 
             return View(model);

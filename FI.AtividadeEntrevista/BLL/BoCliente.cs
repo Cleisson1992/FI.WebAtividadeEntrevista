@@ -57,7 +57,13 @@ namespace FI.AtividadeEntrevista.BLL
         public DML.Cliente Consultar(long id)
         {
             DaoCliente cli = new DaoCliente();
-            return cli.Consultar(id);
+            DaoBeneficiario ben = new DaoBeneficiario();
+
+
+            var c = cli.Consultar(id);
+            c.Beneficiarios = ben.ListarBeneficiarios(id);
+
+            return c;
         }
 
         /// <summary>
