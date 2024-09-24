@@ -3,6 +3,7 @@ $(document).ready(function () {
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
+        $('#formCadastro #CPF').val(formatarCPF(obj.CPF)); 
         $('#formCadastro #Email').val(obj.Email);
         $('#formCadastro #Sobrenome').val(obj.Sobrenome);
         $('#formCadastro #Nacionalidade').val(obj.Nacionalidade);
@@ -10,7 +11,6 @@ $(document).ready(function () {
         $('#formCadastro #Cidade').val(obj.Cidade);
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
-        $('#formCadastro #CPF').val(obj.CPF);
     }
 
     $('#formCadastro').submit(function (e) {
@@ -22,6 +22,7 @@ $(document).ready(function () {
             data: {
                 "NOME": $(this).find("#Nome").val(),
                 "CEP": $(this).find("#CEP").val(),
+                "CPF": $(this).find("#CPF").val().replace(/\D+/g, ''),
                 "Email": $(this).find("#Email").val(),
                 "Sobrenome": $(this).find("#Sobrenome").val(),
                 "Nacionalidade": $(this).find("#Nacionalidade").val(),
@@ -29,7 +30,6 @@ $(document).ready(function () {
                 "Cidade": $(this).find("#Cidade").val(),
                 "Logradouro": $(this).find("#Logradouro").val(),
                 "Telefone": $(this).find("#Telefone").val(),
-                "CPF": $(this).find("#CPF").val().replace(/\D+/g, ''),
             },
             error:
             function (r) {
@@ -48,6 +48,16 @@ $(document).ready(function () {
     })
     
 })
+
+function formatarCPF(cpf) {
+    cpf = cpf.replace(/\D/g, '');
+
+    if (cpf.length === 11) {
+        return cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4');
+    }
+
+    return cpf;
+}
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');

@@ -24,8 +24,8 @@
                 <td class="cpf">${cpf}</td>
                 <td class="nome">${nome}</td>
                 <td>
-                    <button class="btn btn-sm btn-warning btnEditar" data-cpf="${cpf}" data-nome="${nome}">Editar</button>
-                    <button class="btn btn-sm btn-danger btnRemover">Remover</button>
+                    <button class="btn btn-sm btn-primary btnEditar" data-cpf="${cpf}" data-nome="${nome}">Editar</button>
+                    <button class="btn btn-sm btn-primary btnRemover">Remover</button>
                 </td>
             </tr>`;
         $('#gridBeneficiarios tbody').append(row);
