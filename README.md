@@ -28,7 +28,7 @@
 - `ID`: Chave Primária
 - `NOME`: Nome do cliente
 - `SOBRENOME`: Sobrenome do cliente
-- `CPF`: CPF do cliente (obrigatório, único)
+- `CPF`: CPF do cliente
 - `EMAIL`: E-mail do cliente
 - `TELEFONE`: Telefone do cliente
 - `ENDERECO`: Detalhes do endereço do cliente
