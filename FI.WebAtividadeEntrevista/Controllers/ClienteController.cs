@@ -31,7 +31,7 @@ namespace WebAtividadeEntrevista.Controllers
             if (!ValidarDocumento.ValidarCPF(model.CPF))
             {
                 Response.StatusCode = 400;
-                return Json("CPF inválido.");
+                return Json("Informe um CPF Válido.");
             }
 
             if (bo.VerificarExistencia(model.CPF))
