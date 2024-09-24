@@ -11,11 +11,6 @@ namespace WebAtividadeEntrevista.Models
     /// </summary>
     public class ClienteModel
     {
-        public ClienteModel()
-        {
-            Beneficiarios = new List<BeneficiarioModel>();
-        }
-
         public long Id { get; set; }
 
         /// <summary>
@@ -81,6 +76,6 @@ namespace WebAtividadeEntrevista.Models
         /// <summary>
         /// Lista de Beneficiários
         /// </summary>
-        public List<BeneficiarioModel> Beneficiarios { get; set; }
+        public List<BeneficiarioModel> Beneficiarios { get; set; } = new List<BeneficiarioModel>();
     }
 }

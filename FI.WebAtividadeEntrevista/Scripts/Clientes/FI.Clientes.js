@@ -29,22 +29,18 @@ $(document).ready(function () {
 function obterDadosBeneficiarios() {
     let beneficiarios = [];
 
-    // Itera sobre cada linha da tabela de beneficiários
     $("#gridBeneficiarios > tbody > tr").each(function () {
-        // Usa o 'this' para referenciar a linha atual
         let linhaTabela = $(this);
 
-        // Captura CPF e Nome, removendo caracteres não numéricos do CPF
         let cpf = linhaTabela.find(".cpf").text().replace(/\D+/g, '');
-        let nome = linhaTabela.find(".nome").text().trim(); // Usa trim() para remover espaços extras
+        let nome = linhaTabela.find(".nome").text().trim(); 
 
-        // Adiciona os dados ao array de beneficiários, se o CPF não estiver vazio
         if (cpf) {
             beneficiarios.push({ CPF: cpf, NOME: nome });
         }
     });
 
-    return beneficiarios; // Retorna a lista de beneficiários
+    return beneficiarios; 
 }
 
 function coletarDadosFormulario() {

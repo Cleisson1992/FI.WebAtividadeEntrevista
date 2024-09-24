@@ -1,4 +1,5 @@
 ﻿using FI.AtividadeEntrevista.DAL.Beneficiarios;
+using FI.AtividadeEntrevista.DAL.Clientes;
 
 namespace FI.AtividadeEntrevista.BLL
 {
@@ -13,6 +14,22 @@ namespace FI.AtividadeEntrevista.BLL
         {
             DaoBeneficiario ben = new DaoBeneficiario();
             ben.Excluir(id);
+        }
+
+        /// <summary>
+        /// Consultar os beneficiários pelo id do cliente
+        /// </summary>
+        /// <param name="id">id do cliente</param>
+        /// <returns></returns>
+        public DML.Cliente Consultar(long id)
+        {
+            DaoCliente cli = new DaoCliente();
+            DaoBeneficiario ben = new DaoBeneficiario();
+
+            var cliente = cli.Consultar(id);
+            cliente.Beneficiarios = ben.ListarBeneficiarios(id);
+
+            return cliente;
         }
     }
 }

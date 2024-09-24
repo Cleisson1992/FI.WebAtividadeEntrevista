@@ -11,6 +11,15 @@ namespace WebAtividadeEntrevista.Controllers
 {
     public class ClienteController : Controller
     {
+        private readonly BoCliente _clienteService;
+        private readonly BoBeneficiario _beneficiarioService;
+
+        public ClienteController()
+        {
+            _clienteService = new BoCliente();
+            _beneficiarioService = new BoBeneficiario();
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -24,15 +33,13 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Incluir(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
-
             if (!ValidarDocumento.ValidarCPF(model.CPF))
             {
                 Response.StatusCode = 400;
                 return Json("Informe um CPF Válido.");
             }
 
-            if (bo.VerificarExistencia(model.CPF))
+            if (_clienteService.VerificarExistencia(model.CPF))
             {
                 Response.StatusCode = 400;
                 return Json("Este CPF já está cadastrado.");
@@ -49,7 +56,7 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                var cliente = new Cliente();             
+                var cliente = new Cliente();
                 cliente.CEP = model.CEP;
                 cliente.Cidade = model.Cidade;
                 cliente.Email = model.Email;
@@ -61,7 +68,7 @@ namespace WebAtividadeEntrevista.Controllers
                 cliente.Telefone = model.Telefone;
                 cliente.CPF = model.CPF;
                 cliente.Beneficiarios = new List<Beneficiario>();
-                
+
                 foreach (var beneficiario in model.Beneficiarios)
                 {
                     cliente.Beneficiarios.Add(new Beneficiario
@@ -71,7 +78,7 @@ namespace WebAtividadeEntrevista.Controllers
                     });
                 }
 
-                model.Id = bo.Incluir(cliente);
+                model.Id = _clienteService.Incluir(cliente);
 
                 return Json("Cadastro efetuado com sucesso");
             }
@@ -80,15 +87,13 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpPost]
         public JsonResult Alterar(ClienteModel model)
         {
-            BoCliente bo = new BoCliente();
-
             if (!ValidarDocumento.ValidarCPF(model.CPF))
             {
                 Response.StatusCode = 400;
                 return Json("CPF inválido.");
             }
 
-            if (bo.VerificarExistencia(model.CPF))
+            if (_clienteService.VerificarExistencia(model.CPF))
             {
                 Response.StatusCode = 400;
                 return Json("Este CPF já está cadastrado em outro cliente.");
@@ -105,7 +110,7 @@ namespace WebAtividadeEntrevista.Controllers
             }
             else
             {
-                bo.Alterar(new Cliente()
+                _clienteService.Alterar(new Cliente()
                 {
                     Id = model.Id,
                     CEP = model.CEP,
@@ -119,7 +124,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Telefone = model.Telefone,
                     CPF = model.CPF,
                 });
-                               
+
                 return Json("Cadastro alterado com sucesso");
             }
         }
@@ -127,9 +132,8 @@ namespace WebAtividadeEntrevista.Controllers
         [HttpGet]
         public ActionResult Alterar(long id)
         {
-            BoCliente bo = new BoCliente();
-            Cliente cliente = bo.Consultar(id);
-            Models.ClienteModel model = null;
+            Cliente cliente = _clienteService.Consultar(id);
+            ClienteModel model = null;
 
             if (cliente != null)
             {
@@ -179,7 +183,7 @@ namespace WebAtividadeEntrevista.Controllers
                 if (array.Length > 1)
                     crescente = array[1];
 
-                List<Cliente> clientes = new BoCliente().Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
+                List<Cliente> clientes = _clienteService.Pesquisa(jtStartIndex, jtPageSize, campo, crescente.Equals("ASC", StringComparison.InvariantCultureIgnoreCase), out qtd);
 
                 //Return result to jTable
                 return Json(new { Result = "OK", Records = clientes, TotalRecordCount = qtd });
@@ -188,6 +192,20 @@ namespace WebAtividadeEntrevista.Controllers
             {
                 return Json(new { Result = "ERROR", Message = ex.Message });
             }
+        }
+
+        [HttpPost]
+        public JsonResult ExcluirBeneficiario(long id)
+        {
+            if (id <= 0)
+            {
+                Response.StatusCode = 400;
+                return Json("Informe o id do beneficiario!");
+            }
+
+            _beneficiarioService.Excluir(id);
+
+            return Json("Exclusão realizada com sucesso");
         }
     }
 }

@@ -23,10 +23,16 @@
         }
     });
 
-
-    $(document).on('click', '.btnRemover', function () {
+    $(document).on('click', '.btnExcluir', function () {
         $(this).closest('tr').remove();
     });
+
+    window.confirmarExcluirBeneficionario = function (button) {
+        var id = $(button).data('id');
+        if (confirm("Você tem certeza que deseja excluir este beneficiário ?")) {
+            excluirBeneficionario(id);
+        }
+    };
 });
 
 function adicionarLinhaBeneficiario(cpf, nome) {
@@ -35,8 +41,8 @@ function adicionarLinhaBeneficiario(cpf, nome) {
                 <td class="cpf">${cpf}</td>
                 <td class="nome">${nome}</td>
                 <td>
-                    <button class="btn btn-sm btn-primary btnEditar" data-cpf="${cpf}" data-nome="${nome}">Editar</button>
-                    <button class="btn btn-sm btn-primary btnRemover">Remover</button>
+                    <button class="btn btn-sm btn-primary btnAlterar" data-cpf="${cpf}" data-nome="${nome}">Alterar</button>
+                    <button class="btn btn-sm btn-primary btnExcluir">Excluir</button>
                 </td>
             </tr>`;
     $('#gridBeneficiarios tbody').append(row);
@@ -89,4 +95,34 @@ function isValidCPF(cpf) {
     }
 
     return true;
+}
+
+function excluirBeneficionario(id) {
+    $.ajax({
+        url: urlExcluirBeneficiario,
+        type: 'POST',
+        data: { id: id },
+        success: function (response) {
+            if (response.success) {
+                $('#gridBeneficiarios tbody tr').filter(function () {
+                    return $(this).find('.btnExcluirBeneficiario').data('id') === id;
+                }).remove();
+
+                atualizarContadores(); 
+
+                alert("Beneficiário excluído com sucesso!");
+            } else {
+                alert(response.message);
+            }
+        },
+        error: function () {
+            alert("Erro ao excluir beneficiário.");
+        }
+    });
+}
+
+function atualizarContadores() {
+    var totalBeneficiarios = $('#gridBeneficiarios tbody tr').length;
+
+    $('#totalBeneficiarios').text(totalBeneficiarios);
 }
