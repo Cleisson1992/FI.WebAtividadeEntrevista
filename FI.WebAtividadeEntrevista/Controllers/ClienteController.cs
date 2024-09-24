@@ -200,12 +200,19 @@ namespace WebAtividadeEntrevista.Controllers
             if (id <= 0)
             {
                 Response.StatusCode = 400;
-                return Json("Informe o id do beneficiario!");
+                return Json(new { success = false, message = "Informe o id do beneficiário!" });
             }
 
-            _beneficiarioService.Excluir(id);
-
-            return Json("Exclusão realizada com sucesso");
+            try
+            {
+                _beneficiarioService.Excluir(id);
+                return Json(new { success = true, message = "Exclusão realizada com sucesso" });
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = 500; 
+                return Json(new { success = false, message = "Erro ao excluir beneficiário: " + ex.Message });
+            }
         }
     }
 }

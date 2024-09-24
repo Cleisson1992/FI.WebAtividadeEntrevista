@@ -106,9 +106,9 @@ function excluirBeneficionario(id) {
             if (response.success) {
                 $('#gridBeneficiarios tbody tr').filter(function () {
                     return $(this).find('.btnExcluirBeneficiario').data('id') === id;
-                }).remove();
-
-                atualizarContadores(); 
+                }).fadeOut(400, function () {
+                    $(this).remove(); 
+                });
 
                 alert("Beneficiário excluído com sucesso!");
             } else {
@@ -119,10 +119,4 @@ function excluirBeneficionario(id) {
             alert("Erro ao excluir beneficiário.");
         }
     });
-}
-
-function atualizarContadores() {
-    var totalBeneficiarios = $('#gridBeneficiarios tbody tr').length;
-
-    $('#totalBeneficiarios').text(totalBeneficiarios);
 }
