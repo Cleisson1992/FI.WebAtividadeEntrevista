@@ -11,6 +11,11 @@
             return;
         }
 
+        if (cpfExists(cpf)) {
+            alert('Este CPF já foi incluído.');
+            return;
+        }
+
         if (adicionarLinhaBeneficiario(cpf, nome)) {
             $('#formBeneficiario')[0].reset();
         } else {
@@ -18,8 +23,14 @@
         }
     });
 
-    function adicionarLinhaBeneficiario(cpf, nome) {
-        const row = `
+
+    $(document).on('click', '.btnRemover', function () {
+        $(this).closest('tr').remove();
+    });
+});
+
+function adicionarLinhaBeneficiario(cpf, nome) {
+    const row = `
             <tr>
                 <td class="cpf">${cpf}</td>
                 <td class="nome">${nome}</td>
@@ -28,47 +39,54 @@
                     <button class="btn btn-sm btn-primary btnRemover">Remover</button>
                 </td>
             </tr>`;
-        $('#gridBeneficiarios tbody').append(row);
-        const lastRow = $('#gridBeneficiarios tbody tr:last');
-        return lastRow.length > 0 && lastRow.find('td').eq(0).text() === cpf && lastRow.find('td').eq(1).text() === nome;
-    }
+    $('#gridBeneficiarios tbody').append(row);
+    const lastRow = $('#gridBeneficiarios tbody tr:last');
+    return lastRow.length > 0 && lastRow.find('td').eq(0).text() === cpf && lastRow.find('td').eq(1).text() === nome;
+}
 
-    $(document).on('click', '.btnRemover', function () {
-        $(this).closest('tr').remove(); 
+function cpfExists(cpf) {
+    let exists = false;
+    $('#gridBeneficiarios tbody tr').each(function () {
+        const existingCpf = $(this).find('td.cpf').text();
+        if (existingCpf === cpf) {
+            exists = true;
+            return false; 
+        }
     });
+    return exists;
+}
 
-    function isValidCPF(cpf) {
+function isValidCPF(cpf) {
 
-        cpf = cpf.replace(/\D/g, '');
+    cpf = cpf.replace(/\D/g, '');
 
-        if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
-            return false; 
-        }
-
-        let sum = 0;
-        for (let i = 0; i < 9; i++) {
-            sum += parseInt(cpf[i]) * (10 - i);
-        }
-        let firstDigit = (sum * 10) % 11;
-        if (firstDigit === 10 || firstDigit === 11) {
-            firstDigit = 0;
-        }
-        if (firstDigit !== parseInt(cpf[9])) {
-            return false;
-        }
-
-        sum = 0;
-        for (let i = 0; i < 10; i++) {
-            sum += parseInt(cpf[i]) * (11 - i);
-        }
-        let secondDigit = (sum * 10) % 11;
-        if (secondDigit === 10 || secondDigit === 11) {
-            secondDigit = 0;
-        }
-        if (secondDigit !== parseInt(cpf[10])) {
-            return false; 
-        }
-
-        return true; 
+    if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) {
+        return false;
     }
-});
+
+    let sum = 0;
+    for (let i = 0; i < 9; i++) {
+        sum += parseInt(cpf[i]) * (10 - i);
+    }
+    let firstDigit = (sum * 10) % 11;
+    if (firstDigit === 10 || firstDigit === 11) {
+        firstDigit = 0;
+    }
+    if (firstDigit !== parseInt(cpf[9])) {
+        return false;
+    }
+
+    sum = 0;
+    for (let i = 0; i < 10; i++) {
+        sum += parseInt(cpf[i]) * (11 - i);
+    }
+    let secondDigit = (sum * 10) % 11;
+    if (secondDigit === 10 || secondDigit === 11) {
+        secondDigit = 0;
+    }
+    if (secondDigit !== parseInt(cpf[10])) {
+        return false;
+    }
+
+    return true;
+}

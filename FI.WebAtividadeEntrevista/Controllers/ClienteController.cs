@@ -148,9 +148,7 @@ namespace WebAtividadeEntrevista.Controllers
                     Sobrenome = cliente.Sobrenome,
                     Telefone = cliente.Telefone,
                     CPF = cliente.CPF,
-                };
-
-            
+                };         
             }
 
             return View(model);
